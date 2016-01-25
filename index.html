@@ -107,12 +107,100 @@
 					<li><a href="#/pytania">Pytania</a></li>
 				</ul>
 			</section>
-			<section id="epoka-kamienia">
+			
+            <section id="epoka-kamienia">
 				<section>
 					<h2>Epoka kamienia</h2>
 				</section>
 			</section>
+            
+            <section id="sredniowiecze">
+                <section>
+                    <h2>Średniowiecze</h2>
+                </section>
+            </section>
+            
+            <section id="nowozytnosc">
+                <section>
+                    <h2>Nowożytność</h2>
+                    <h3>Tu jesteśmy.</h3>
+                </section>
+                <section>
+                    <h2>Struktura projektów</h2>
+                </section>
+                <section>
+                    <h2>Architektura</h2>
+                    <ul>
+                        <li>UI</li>
+                        <li>Serwer</li>
+                    </ul>
+                </section>
+            </section>
+            
+            <section id="nowozytnosc-architektura-ui">
+                <section><h2>UI</h2></section>
+            </section>
+            
+            <section id="nowozytnosc-architektura-serwer">                
+                <section><h2>Serwer</h2></section>
+                <section>
+                    <h3>Stos technologiczny</h3>
+                    <ul>
+                        <li>.NET 4.5.2</li>
+                        <li>ASP.NET WebApi + Swashbuckle Swagger</li>
+                        <li>Structure Map</li>
+                        <li>Dapper</li>
+                        <li>MonoCecil + Fody</li>
+                        <li>Glimpse</li>
+                        <li>inne: 
+                            <ul>
+                                <li>FluentValidator, FluentMigrator, CommandLineParser, Psake</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Architektura</h3>
+                    <p>Message Passing</p>
+                    <ul>
+                        <li><code>IDispatcher</code></li>
+                        <li><code>IHandleRequest</code></li>
+                    </ul>
+                </section>
+                <section>
+                    <code>IDispatcher</code>
+                    <pre><code class="cs">
+public interface IDispatcher
+{
+    OutEnvelope&lt;TResponse> Dispatch&lt;TRequest, TResponse&gt;(TRequest request)
+        where TRequest : Request&lt;TResponse&gt;
+        where TResponse : class;
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <code>IHandleRequest</code>
+                    <pre><code class="cs">
+public interface IHandleRequest&lt;TMessage, TResponse&gt; : IHandleRequest
+    where TMessage : Request&lt;TResponse&gt;
+    where TResponse : class
+{
+    OutEnvelope&lt;TResponse&gt; Handle(TMessage request);
+}
+                    </code></pre>
+                </section>
+            </section>
+            
+            <section id="czasy-najnowsze-przyszlosc">
+                <section>
+                    <h2>Czasy najnowsze i przyszłość</h2>
+                </section>
+            </section>
 		
+            <section id="pytania">
+				<h2>Pytania?</h2>		
+			</section>
+            
 			<section id="server">
                 <h2>sample</h2>
 				<section>
@@ -160,9 +248,7 @@ export class AuthStore {
 					<pre><code class="html">&lt;span&gt;{{ vm.angularsample }}&lt;/span&gt;</code></pre>
 				</section>
 			</section>
-			<section id="pytania">
-				<h2>Pytania?</h2>		
-			</section>
+			
 		</div>
 	</div>
 
