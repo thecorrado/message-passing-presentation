@@ -74,8 +74,8 @@
                 <div>
                     <small><em>Tomasz Frydrychewicz & Konrad Banaszek</em></small>
                 </div>
-				<h2>Wyjście z dev-epoki kamienia</h2>
-                <p>...i jak nam w tym pomógł <em>message-passing</em><br />z <em>feature-driven development</em></p>
+				<h2>Wyjście z epoki oprogramowania łupanego</h2>
+                <p>...i jak nam w tym pomógł <em>message-passing</em><br />oraz <em>feature-driven development</em></p>
 				
 			</section>
             <section id="bio">
@@ -188,6 +188,197 @@ public interface IHandleRequest&lt;TMessage, TResponse&gt; : IHandleRequest
     OutEnvelope&lt;TResponse&gt; Handle(TMessage request);
 }
                     </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> przykład</p>
+                    <pre><code class="cs">
+public class GetSapleDataHandler 
+    : IHandleRequest&lt;GetSampleData.Request, IEnumerable&lt;string&gt;&gt;
+{
+    private readonly SqlConnection _connection;
+    
+    ...ctor...
+
+    public OutEnvelope&lt;IEnumerable&lt;string&gt;&gt; Handle(GetSampleData.Request request)
+    {
+        var rows = _connection.Query&lt;SomeRow&gt;(@"
+            SELECT [Something] FROM [Somewhere]");
+        if (rows == null)
+            return OutEnvelope&lt;IEnumerable&lt;string&gt;&gt;.NotFound();
+                 
+        var result = rows.Select(r =&gt; r.Something);
+        
+        new OutEnvelope&lt;IEnumerable&lt;string&gt;&gt;(result); // or just return result;
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> wywołuje inny handler</p>
+                    <pre><code class="cs">
+public OutEnvelope&lt;ImportantData&gt; Handle(GetImporantData.Request request)
+{
+    var employeeId = _dispatcher.Dispatch(
+        new GetEmployeeId.Request(request.SomeId)).Body;
+
+    var rows = _connection.Query&lt;SomeRow&gt;(@"
+        SELECT [Something] FROM [Somewhere] WHERE EmployeeId = @EmployeeId",
+        new { EmployeeId = employeeId });
+    
+    (...)
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> dekorujemy</p>
+                    <pre><code class="cs">
+public CacheHandler(IHandleRequest&lt;TRequest, TResponse&gt; wrapped, 
+    ICacheRequirement requirement,
+    ICacheService&lt;TRequest, 
+    OutEnvelope&lt;TResponse&gt;&gt; cacheService)
+{
+    _wrapped = wrapped;
+    _requirement = requirement;
+    _cacheService = cacheService;
+}
+
+public OutEnvelope&lt;TResponse&gt; Handle(TRequest request)
+{
+    return _cacheService.GetOrAdd(_requirement, request, 
+        () =&gt; _wrapped.Handle(request));
+}
+                </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> więcej dekorujemy!</p>
+                    <pre><code class="cs">
+                        public CacheHandler(...)
+                        public AuditHandler(...)
+                        public TracingHandler(...)
+                        public GlimpseHandler(...)
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Dekorujemy ze StructureMap</p>
+                    <pre><code class="cs">
+public class GlimpsePolicy : IInterceptorPolicy
+{
+    public string Description { get { return "..."; } }
+
+    public IEnumerable&lt;IInterceptor&gt; DetermineInterceptors(
+        Type type, Instance instance)
+    {
+        if (!type.IsHandlerInterfaceType())
+        {
+            yield break;
+        }
+
+        var handler = typeof(GlimpseHandlerDecorator&lt;,&gt;)
+            .MakeGenericType(type.GetGenericArguments());
+        yield return new DecoratorInterceptor(type, handler);
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Testujemy cały handler</p>
+
+                <pre><code class="cs">
+[Test]
+public void Some_Test_ThenError()
+{
+    Given( // tworzymy Fakes wszystkich wywołań handlerów w testowanym handlerze
+        new Fakes.UserInAgency(AgencyId, EmployeeId),
+        new Fakes.HasPermission(EmployeeId, OrgId, ...),
+        ...etc...
+    );
+
+    When(new SearchCustomer.Request(...)); // request dla testowanego handlera
+    
+    Then( // oczekujemy rezultatu handlera
+        new ValidationError("Document.Number", "Number missing"));
+}
+                </code></pre>
+                </section>
+                <section>
+                    <h2>WebApi</h2>
+                </section>
+                <section>
+                    <p>WebApi - Controller</p>
+                    <pre><code class="cs">
+public class CustomerController : ApiController
+{
+    [Route("api/customer/{CustomerId}")]
+    [ResponseType(typeof (Customer))]
+    public HttpResponseMessage Get([FromBodyAndUri] GetCustomer.Request request)
+    {
+      ...call dispatcher...
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>WebApi - BaseController</p>
+                    <pre><code class="cs">
+public class BaseController : ApiContoller
+{
+    protected HttpResponseMessage Handle(object request)
+    {
+        if (!ModelState.IsValid)
+        { ... }
+
+        var dependencies = Request.GetDependencyScope();
+        var service = (IDispatcher)dependencies
+            .GetService(typeof (IDispatcher));
+
+        var outEnvelope = (IOutEnvelope) service.Dispatch(request);
+        return Request.CreateResponse(outEnvelope.Code, 
+            new ResponseBody(outEnvelope));
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>MonoCecil & Fody for the win!</p>
+                    <pre><code class="cs">
+public void Execute()
+{
+    var baseController = ModuleDefinition
+        .GetTypes().Single(t => t.Name == "BaseController");
+    var handle = baseController
+        .Resolve().Methods.Single(m => m.Name == "Handle");
+
+    var exampleController = baseController.Resolve().NestedTypes[0];
+    var exampleAction = exampleController.Methods[0];
+
+    var requests = GetRequests(ModuleDefinition).ToArray();
+    var types = new Dictionary&lt;string, TypeDefinition&gt;();
+
+    foreach (var request in requests)
+    {
+        TypeDefinition controller;
+        if (types.TryGetValue(request.Area, out controller) == false)
+        { ... }
+
+        AddAction(request, controller, exampleAction, handle);
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>MonoCecil - wygenerowane API Controllers</p>
+                    <img src="images/emit-controllers.png" />
+                </section>
+                <section>
+                    <p>Fody - co jeszcze?</p>
+                    <ul>
+                        <li>Fody.ToString</li>
+                        <li>Fody.Seal - <strong>Kamil Mrzygłód</strong> (nasz człowiek!)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Podsumowując message-passing...</h3>
+                    <img src="images/fody-twitter.png" alt="">
                 </section>
             </section>
             
