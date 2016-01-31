@@ -112,6 +112,12 @@
 				<section>
 					<h2>Epoka kamienia</h2>
 				</section>
+                <section>
+                    <h3>Proces</h3>
+                </section>
+                <section>
+                    <h3>Architektura</h3>
+                </section>
 			</section>
             
             <section id="sredniowiecze">
@@ -366,8 +372,23 @@ public void Execute()
                     </code></pre>
                 </section>
                 <section>
+                    <p><code>IHandleRequest</code> - route attribute</p>
+                    <pre><code class="cs">
+[Authorize]
+[Route("Customer", "api/customer", RouteAttribute.Methods.Post)]
+public OutEnvelope&lt;EmptyResponse&gt; Handle(SaveCustomer.Request request)
+{
+    (...)
+    return OutEnvelope&lt;EmptyResponse&gt;.Ok();
+}    
+                    </code></pre>
+                </section>
+                <section>
                     <p>MonoCecil - wygenerowane API Controllers</p>
                     <img src="images/emit-controllers.png" />
+                </section>
+                <section>
+                    <img src="images/swagger.png" />
                 </section>
                 <section>
                     <p>Fody - co jeszcze?</p>
@@ -377,9 +398,152 @@ public void Execute()
                     </ul>
                 </section>
                 <section>
+                    <h3>Feature Toggling</h3>
+                    <ul>
+                        <li>Ujarzmienie <em>if-logy</em></li>
+                        <li>Dużo łatwiejsze testowanie skomplikowanych reguł</li>
+                        <li>Bazuje na lokalnym kontekście wiadomości, roli i innych</li>
+                        <li>Zawsze jeden, domyślny <em>feature</em></li>
+                    </ul>
+                </section>
+                <section>
+                    <p>Feature Toggling - <code>IFeature</code></p>
+                    <pre><code class="cs">
+public interface IFeature&lt;TContext&gt;
+{
+    bool IsEnabled();
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Feature Toggling - <code>IToggler</code></p>
+                    <pre><code class="cs">
+public interface IToggler&lt;TFeature, TContext&gt; where TFeature : IFeature&lt;TContext&gt;
+{
+    TFeature Get(TContext context);
+    IEnumerable&lt;TFeature&gt; GetAll(TContext context);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Feature Toggling - <code>FeatureFinder</code></p>
+                    <pre><code class="cs">
+public interface IFeatureFinder
+{
+    IEnumerable&lt;TFeature&gt; GetInstances&lt;TFeature, TContext&gt;(TContext context) 
+        where TFeature : IFeature&lt;TContext&gt;;
+    TFeature GetDefault&lt;TFeature, TContext&gt;(TContext context) 
+        where TFeature : IFeature&lt;TContext&gt;;
+}
+                    </code></pre>
+                    <p>Implementacja Finder opiera się na przeszukiwaniu kontenera SM</p>
+                </section>
+                <section>
+                    <h3>Caching - Second Level</h3>
+                    <ul>
+                        <li>Standardowy <code>HttpCache</code></li>
+                        <li>Wykorzystanie <code>SqlDependency</code> do unieważniania danych</li>
+                        <li>Service Broker</li>
+                        <li>Łatwe użycie - poprzez dekorowanie (aspect)</li>
+                    </ul>
+                    <pre><code class="cs">
+[Cache("dbo", "SomeTable", "SomeColumnOne", "SomeColumn2")]
+public OutEnvelope&lt;GetDesksForAgency.Response&gt;
+    Handle(GetDesksForAgency.Request request)
+{
+    // ...
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Caching - First Level</h3>
+                    <ul>
+                        <li>Cache na czas życia jednego żądania</li>
+                        <li>Cache rezultatu handlera dla tego samego żądania</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Audit</h3>
+                    <ul>
+                        <li>Niespodzianka! Ponownie poprzez dekorowanie (aspect)</li>
+                        <li>Zapis pełnego bloku danych</li>
+                        <li>Domyślnie każde żądanie do serwera jest poddane audytowi</li>
+                        <li>
+                            Możliwość wyłączenia audytowania dla pewnych operacji:
+                            <ul>
+                                <li>Infrastrukturalnych handlerów -<br /><code class="cs">[NotAuditableOperation]</code></li>
+                                <li>Danych wrażliwych (np. hasła) -<br /><code class="cs">[SensitiveData]</code></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Silnie typowane Id</h3>
+                    <pre><code class="cs">
+public interface IId : IEquatable&lt;IId&gt;
+{ }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Silnie typowane Id - bazowe</h3>
+                    <pre><code class="cs">
+public class DocumentId : Id.IntId&lt;DocumentId&gt;
+{ }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Silnie typowane Id - complex</h3>
+                    <pre><code class="cs">
+[TypeConverter(typeof(DeskIdConverter))]
+public class DeskId : Id.IId
+{
+    /// Format: {OrganizationId},{AgencyId},{DeskId}
+    public static DeskId From(string value)
+    { ... }
+
+    public static bool TryFrom(string value, out DeskId id)
+    { ... }
+    
+    public class DeskIdConverter : Id.BaseFromStringTypeConverter&lt;DeskId&gt;
+    {
+        protected override bool TryParse(string value, out DeskId id)
+        {
+            return TryFrom(value, out id);
+        }
+    }
+}
+                </code></pre>
+                </section>
+                <section>
+                    <h3>Inne</h3>
+                    <ul>
+                        <li>Performance Counter</li>
+                        <li>Glimpse (pomimo WebApi)</li>
+                        <li>Pałka-serializator poprawnie zaimplementowany</li>
+                        <li>Migracje z FluentMigration (+ pull request <em>idempotent migrations</em></li>
+                        <li>
+                            Aplikacja Cmd (z użyciem CommandLineParser)
+                            <ul>
+                                <li>Generowanie typów dla TypeScript (PostBuild)</li>
+                                <li>Transformacja .resx do .json, mapowanie starych kluczy na nowe</li>
+                                <li>Instalator Performane Counter</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
                     <h3>Podsumowując message-passing...</h3>
                     <img src="images/fody-twitter.png" alt="">
                 </section>
+            </section>
+            
+            <section>
+                <h2>Proces</h2>
+                <ul>
+                    <li>Testy</li>
+                    <li>CI</li>
+                    <li>CD</li>
+                </ul>
             </section>
             
             <section id="czasy-najnowsze-przyszlosc">
@@ -390,56 +554,8 @@ public void Execute()
 		
             <section id="pytania">
 				<h2>Pytania?</h2>		
-			</section>
-            
-			<section id="server">
-                <h2>sample</h2>
-				<section>
-					<pre><code class="cs">[Test]
-public void GivenEmployeeWithMultipleDeskNotAllowed
-	_AndDeskAlreadyOpen
-	_ThenDeskCannotBeOpened()
-{
-    Given(
-        UserInAgency("SPAIN,Toledo", "Pablo Francesco"),
-        HasPermission("Pablo Francesco", "SPAIN", 
-        	GeneralPermissions.GEN_FRONT_OFFICE),
-        HasDesksInUseCount(3)
-        );
-
-    When(new CheckEmployeeCanOpenAnyDesk.Request("SPAIN,Toledo"));
-    Then(CanOpenDesk(false));
-}</code></pre>
-				</section>
-			</section>
-			<section id="client">
-                <h2>sample</h2>
-				<section>
-					<pre><code class="ts">@store()
-@inject(Dispatcher, User)
-export class AuthStore {
-	constructor(private dispatcher: Dispatcher) {
-	}
-
-	@handle(actions.authenticateUser)
-	private authenticate(message: string, user: any) {
-		//...some business logic
-		this.dispatcher.dispatch(events.userAuthenticated, user);
-	}
+			</section>            
 	
-	public getUser() {
-		//...
-	}
-}</code></pre>
-				</section>
-				<section>
-					<pre><code class="json">{
-	"sample": "JSON"
-}</code></pre>
-					<pre><code class="html">&lt;span&gt;{{ vm.angularsample }}&lt;/span&gt;</code></pre>
-				</section>
-			</section>
-			
 		</div>
 	</div>
 
