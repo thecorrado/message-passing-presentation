@@ -118,6 +118,69 @@
                 <section>
                     <h3>Architektura</h3>
                 </section>
+                <section>
+                    <h3>Architektura</h3>
+                    <p>// -- funny img ;)
+                </section>
+                <section>
+                    <p>Stos technologiczny</p>
+                    <ul>
+                        <li>.NET od 2.0 do 4.0</li>
+                        <li>"Backend" C#</li>
+                        <li>"Frontend" VB.NET <em>( ͠° ͟ʖ ͡°)</em></li>
+                        <li>ASP.NET WebForms</li>
+                        <li>Telerik</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <ul>
+                        <li><strong>Przeciążony</strong> ASPX (~ 30-40k loc)</li>
+                        <li><strong>Przeciążony</strong> CodeBehind z przeciekającą logiką</li>
+                        <li>Przypisywanie funkcji JS w CodeBehind (mouseover, etc.)</li>
+                        <li>JS: sterowanie DOM wymieszane z logiką</li>
+                        <li>Wsparcie <strong>tylko</strong> dla IE8-9</li>
+                        <li>Nieresponsywny, oparty na ZOOM</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Serwer</h3>
+                    <ul>
+                        <li>Sesja, wszędzie sesja... Wyciekająca od ASPX do DAL</li>
+                        <li>Onionizm (warstwy-proxy) - UI-BLL-DAL</li>
+                        <li>(Prawie) brak unit testów</li>
+                        <li>~1000 Thread.Sleep</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Chwytliwe zwroty</h3>
+                </section>
+                <section>
+                    <h1>D R Y</h1>
+                </section>
+                <section>
+                    <h1><small>D</small>RY</13>
+                    <h2>Repeat Yourself</h2>
+                </section>
+                <section>
+                    <h1>K I S S</h1>
+                </section>
+                <section>
+                    <h1>KIS<small>S</small></h1>
+                    <h2>Keep It Stupidly Complicated</h2>
+                </section>
+                <section>
+                    <h1>I o C</h1>
+                </section>
+                <section>
+                    <h1>NoN</h1>
+                    <h2>None of Control</h2>
+                </section>
+                <section>
+                    <h3>Spaghetti code</h3>
+                    <h3>GOTO</h3>
+                    <h3>1 / 0</h3>
+                </section>
 			</section>
             
             <section id="sredniowiecze">
@@ -214,7 +277,7 @@ public class GetSapleDataHandler
                  
         var result = rows.Select(r =&gt; r.Something);
         
-        new OutEnvelope&lt;IEnumerable&lt;string&gt;&gt;(result); // or just return result;
+        new OutEnvelope&lt;IEnumerable&lt;string&gt;&gt;(result); // or just: return result;
     }
 }
                     </code></pre>
@@ -398,6 +461,9 @@ public OutEnvelope&lt;EmptyResponse&gt; Handle(SaveCustomer.Request request)
                     </ul>
                 </section>
                 <section>
+                    <h2>Feature Toggling</h2>
+                </section>
+                <section>
                     <h3>Feature Toggling</h3>
                     <ul>
                         <li>Ujarzmienie <em>if-logy</em></li>
@@ -520,7 +586,7 @@ public class DeskId : Id.IId
                         <li>Performance Counter</li>
                         <li>Glimpse (pomimo WebApi)</li>
                         <li>Pałka-serializator poprawnie zaimplementowany</li>
-                        <li>Migracje z FluentMigration (+ pull request <em>idempotent migrations</em></li>
+                        <li>Migracje z FluentMigration (+ pull request <em>idempotent migrations</em>)</li>
                         <li>
                             Aplikacja Cmd (z użyciem CommandLineParser)
                             <ul>
@@ -537,18 +603,101 @@ public class DeskId : Id.IId
                 </section>
             </section>
             
-            <section>
-                <h2>Proces</h2>
-                <ul>
-                    <li>Testy</li>
-                    <li>CI</li>
-                    <li>CD</li>
-                </ul>
+            <section id="nowozytnosc-proces">
+                <section>
+                    <h2>Proces</h2>
+                    <ul>
+                        <li>Testy</li>
+                        <li>CI</li>
+                        <li>CD</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Testy</h2>
+                    <ul>
+                        <li>Message-passing testy</li>
+                        <li>Unit testy</li>
+                        <li>Funkcjonalne / BDD (SpecFlow)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Testy - TeamCity Code Coverage</h3>
+                    <img src="images/tccc.png" />
+                </section>
+                <section>
+                    <img src="images/omgdevops.jpg" />
+                </section>
+            </section>
+            <section id="nowoztynosc-ci">
+                <section>
+                    <h2>Continuous Integration</h2>
+                </section>
+            </section>
+            <section id="nowoztynosc-cd">
+                <section>
+                    <h2>Continuous Delivery</h2>
+                </section>
+                <section>
+                    <h2>Continuous Delivery</h2>
+                    <img src="images/octologo.png" />
+                </section>
+                <section>
+                    <h2>Trzy środowiska</h2>
+                    <ul>
+                        <li>Dev</li>
+                        <li>QA</li>
+                        <li>External</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Mr.Deploy mail</h3>
+                    <img src="images/octomail.png" />
+                </section>
+                <section>
+                    <h3>CI + Testy + CD = </h3>
+                    <h2>~ 5 minut</h2>
+                </section>
             </section>
             
             <section id="czasy-najnowsze-przyszlosc">
                 <section>
                     <h2>Czasy najnowsze i przyszłość</h2>
+                </section>
+                <section>
+                    <h2>Proces</h2>
+                </section>
+                <section>
+                    <h2>Proces</h2>
+                    <ul>
+                        <li>Continuous Devliery aż do końca</li>
+                        <li>Propagowanie CI & CD w całej firmie</li>
+                        <li>
+                            Wyraźny podział Deploymentu vs. Release (zmiana nastawienia biznesu i release mngt)
+                            <ul>
+                                <li>Częste deploymenty</li>
+                                <li>Szybki, lekki release</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Architektura</h2>
+                </section>
+                <section>
+                    <h2>Architektura - UI</h2>
+                    <ul>
+                        <li>Pozbycie się wsparcia dla IE&lt;10</li>
+                        <li>Aurelia :)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Architektura - Serwer</h2>
+                    <ul>
+                        <li>.NET 4.6</li>
+                        <li>Versioned API</li>
+                        <li>Async/Await API</li>
+                        <li>Concurrent (dla Dapper, dla zewnętrznych serwisów)</li>
+                    </ul>
                 </section>
             </section>
 		
