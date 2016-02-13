@@ -2,82 +2,89 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 
-	<title>Message Passing Presentation</title>
+    <title>Message Passing Presentation</title>
 
-	<meta name="description" content="Message Passing Presentation">
-	<meta name="author" content="Tomasz Frydrychewicz & Konrad Banaszek">
+    <meta name="description" content="Message Passing Presentation">
+    <meta name="author" content="Tomasz Frydrychewicz & Konrad Banaszek">
 
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-	<link rel="stylesheet" href="css/reveal.css">
-	<link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
 
-	<!-- Code syntax highlighting -->
-	<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-	<!-- Printing and PDF exports -->
-	<script>
-		var link = document.createElement( 'link' );
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
-	</script>
+    </script>
 
-	<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 
-	<style media="screen" type="text/css">
-		.reveal table {
-			margin: auto;
-			border-collapse: collapse;
-			border-spacing: 0;
-		}
-		
-		.reveal pre {
-			width: 100%;
-		}
-		
-		.reveal pre code {
-			margin: auto;
-			border-collapse: collapse;
-			border-spacing: 0;
-			max-height: 100%;
-		}
-		
-		.reveal table th {
-			font-weight: bold;
-		}
-		
-		.reveal table th,
-		.reveal table td {
-			text-align: left;
-			padding: 0.2em 0.5em 0.2em 0.5em;
-			border-bottom: 1px solid;
-		}
-	</style>
+    <style media="screen" type="text/css">
+        .reveal table {
+            margin: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+        .reveal pre {
+            width: 100%;
+        }
+        
+        .reveal pre code {
+            margin: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            max-height: 100%;
+        }
+        
+        .reveal table th {
+            font-weight: bold;
+        }
+        
+        .reveal table th,
+        .reveal table td {
+            text-align: left;
+            padding: 0.2em 0.5em 0.2em 0.5em;
+            border-bottom: 1px solid;
+        }
+        
+        .reveal code {
+            width: 1000px;
+            font-size: 0.8em;
+            line-height: 1.4em;
+        }
+    </style>
 </head>
 
 <body>
 
-	<div class="reveal">
+    <div class="reveal">
 
-		<!-- Any section element inside of this container is displayed as a slide -->
-		<div class="slides">
-			<section>
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section>
                 <div>
                     <small><em>Tomasz Frydrychewicz & Konrad Banaszek</em></small>
                 </div>
-				<h2>Wyjście z epoki oprogramowania łupanego</h2>
-                <p>...i jak nam w tym pomógł <em>message-passing</em><br />oraz <em>feature-driven development</em></p>
-				
-			</section>
+                <h2>Wyjście z epoki oprogramowania łupanego</h2>
+                <p>...i jak nam w tym pomógł <em>message-passing</em>
+                    <br />oraz <em>feature-driven development</em></p>
+
+            </section>
             <section id="bio">
                 <section>
                     <h2>Bio</h2>
@@ -97,23 +104,41 @@
                     </ul>
                 </section>
             </section>
-			<section>
-				<h2>Agenda</h2>
-				<ul>
-					<li><a href="#/epoka-kamienia">Epoka kamienia</a></li>
+            <section>
+                <h2>Agenda</h2>
+                <ul>
+                    <li><a href="#/epoka-kamienia">Epoka kamienia</a></li>
                     <li><a href="#/sredniowiecze">Średniowiecze</a></li>
                     <li><a href="#/nowozytnosc">Nowożytność</a></li>
                     <li><a href="#/czasy-najnowsze-przyszlosc">Czasy najnowsze i przyszłość</a></li>
-					<li><a href="#/pytania">Pytania</a></li>
-				</ul>
-			</section>
-			
+                    <li><a href="#/pytania">Pytania</a></li>
+                </ul>
+            </section>
+
             <section id="epoka-kamienia">
-				<section>
-					<h2>Epoka kamienia</h2>
-				</section>
+                <section>
+                    <h2>Epoka kamienia</h2>
+                </section>
                 <section>
                     <h3>Proces</h3>
+                    <ul>
+                        <li class="fragment">
+                            Fragmenty systemu <span class="highlight-red fragment">poza repozytorium kodu</span>
+                        </li>
+                        <li class="fragment"><span class="highlight-red fragment">Dwumiesięczny</span> cykl releasowania</li>
+                        <li class="fragment">Proces całkowicie <span class="highlight-red fragment">manualny</span>
+                            <ul>
+                                <li class="fragment">Release management</li>
+                                <li class="fragment">Testy</li>
+                                <li class="fragment">Dostarczanie oprogramowania na środowisko produkcyjne</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Proces</h3>
+                    <h4>Continuous Integration</h4>
+                    <img src="images/teamcity-red.png" class="fragment" style="height: 500px" />
                 </section>
                 <section>
                     <h3>Architektura</h3>
@@ -181,21 +206,72 @@
                     <h3>GOTO</h3>
                     <h3>1 / 0</h3>
                 </section>
-			</section>
-            
+            </section>
+
             <section id="sredniowiecze">
                 <section>
                     <h2>Średniowiecze</h2>
                 </section>
+                <section>
+                    <h3>Na ratunek przybywa zespół z grodu Warsa i Sawy</h3>
+                </section>
+                <section>
+                    <h3>Średniowiecze - Proces</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="10">
+                            <span class="fragment highlight-green" data-fragment-index="11">Kanban</span> w JIRA
+                        </li>
+                        <li class="fragment" data-fragment-index="20">
+                            <span class="fragment highlight-green" data-fragment-index="21">Przegląd kodu</span> w Upsource
+                        </li>
+                        <li class="fragment" data-fragment-index="30">
+                            <span class="fragment highlight-green" data-fragment-index="32">Phoenix Deployment</span>
+                            <span class="fragment" data-fragment-index="31">(w dalszym ciągu ręczny)</span>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Średniowiecze - Proces</h3>
+                    <h4>Continuous Integration</h4>
+                    <img src="images/teamcity-green.png" style="height: 500px" />
+                </section>
+                <section>
+                    <h3>Średniowiecze - Proces</h3>
+                    <h4>Ciasne, ale własne...</h4>
+                    <!--TODO: Dodać zdjęcie farmy -->
+                    <img src="" alt="Zdjęcie farmy">
+                </section>
+                <section>
+                    <h3>Średniowiecze - Architektura</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="10">
+                            <span class="fragment highlight-green" data-fragment-index="11">Dependency Injection</span> z
+                            użyciem StructureMap
+                        </li>
+                        <li class="fragment" data-fragment-index="20">
+                            Wprowadzamy "<span class="fragment highlight-green" data-fragment-index="21">prawdziwe</span>"
+                            <span class="fragment highlight-green" data-fragment-index="21">testy</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="30">
+                            <span class="fragment highlight-green" data-fragment-index="31">Pozbywamy się sesji</span> z
+                            DAL
+                        </li>
+                    </ul>
+                </section>
             </section>
-            
+
             <section id="nowozytnosc">
                 <section>
                     <h2>Nowożytność</h2>
                     <h3>Tu jesteśmy.</h3>
                 </section>
                 <section>
-                    <h2>Struktura projektów</h2>
+                    <h2>Struktura projektów (Sewer)</h2>
+                    <img src="images/api-project-structure.png" alt="Project Structer" style="height: 400px">
+                </section>
+                <section>
+                    <h2>Struktura projektu (Klient)</h2>
+                    <img src="images/web-project-structure.png" alt="Project Structer" style="height: 580px">
                 </section>
                 <section>
                     <h2>Architektura</h2>
@@ -205,13 +281,239 @@
                     </ul>
                 </section>
             </section>
-            
+
             <section id="nowozytnosc-architektura-ui">
-                <section><h2>UI</h2></section>
+                <section>
+                    <h2>UI</h2></section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Stos technologiczny - Klient</h4>
+                    <ul>
+                        <li class="fragment">JavaScript</li>
+                        <li class="fragment">TypeScript</li>
+                        <li class="fragment">System.JS</li>
+                        <li class="fragment">Angular</li>
+                        <li class="fragment">SASS</li>
+                        <li class="fragment">Bootstrap-SASS</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Stos technologiczny - Developer</h4>
+                    <ul>
+                        <li class="fragment">Node</li>
+                        <li class="fragment">Gulp</li>
+                        <li class="fragment">Visual Studio Code</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Architektura</h4>
+                    <ul>
+                        <li>Asynchronicznie gdzie się da</li>
+                        <li>Leniwie gdzie się da</li>
+                        <li>(Bardzo) silnie typy</li>
+                        <li>(Lepsze) zarządzanie cyklem życia</li>
+                        <li>Feature driven</li>
+                        <li>Komponenty</li>
+                        <li>Aspektowość</li>
+                        <li>Attribute routing</li>
+                        <li>Bardzo dynamiczne formularze</li>
+                        <li>Wersjonowanie</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Asynchronicznie gdzie się da</h4>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Leniwie gdzie się da</h4>
+                    <pre><code class="ts">
+import {route, inject, translated, customElement} from 'app/app';
+import {actions} from '../auth.store';
+import {Dispatcher} from 'app/core/flux';
+import {User} from '../user';
+import {DeskId} from 'app/structure';
+import {Alert} from 'app/common/ui';
+
+...
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>(Bardzo) silnie typy</h4>
+                    <pre><code class="ts">@customElement('search-agents')
+@inject(CitiesResource, Dispatcher, State, StatesResource, AgencyInformationResource, Moment)
+export class SearchAgentsComponent {
+    public city: string;
+    public selectedCity: string;
+    public selectedState: State;	
+    public states: State[];	
+    public agents: ItWorks.Api.Agency.AgentInformation[];
+
+    @bindable.expression public country: string;
+    @bindable.value public size: number;
+
+    constructor(
+    	private citiesResource: CitiesResource,
+    	private dispatcher: Dispatcher,
+    	private state: State,
+    	private statesResource: StatesResource,
+        private agencyInformationResource: AgencyInformationResource,
+        private moment: Moment) {}
+        
+    ...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>(Lepsze) zarządzanie cyklem życia</h4>
+                    <img src="images/web-lifecycle.png" alt="">
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Feature driven</h4>
+                    <img src="images/web-feature.png" alt="">
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Komponenty [1/2]</h4>
+                    <pre><code class="ts">import {customElement, inject, bindable, route} from 'app/app';
+import {PreferredCountriesResource} from './preferredCountries.resource'
+import {AgencyId} from 'app/structure/agency';
+import "./preferredCountries.css!";
+
+@customElement('preferred-countries')
+@inject(PreferredCountriesResource)
+@route('iw.auth.preferredCountries', {
+	url: '/components/preferred-countries'	
+})
+@translate
+export class PreferredCountries {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Komponenty [2/2]</h4>
+                    <pre><code class="ts">import {customAttribute, withoutTemplate, element, bindable, inject} from 'app/app'
+import {Parse} from 'app/core/angular';
+import {AuthProvider} from './provider';
+import * as _ from 'lodash';
+
+@customAttribute('iw-authorize')
+@withoutTemplate
+@inject(Parse)
+export class AuthorizeAttribute {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Aspektowość</h4>
+                    <pre><code class="ts">import {customElement, inject, bindable, route} from 'app/app';
+import {PreferredCountriesResource} from './preferredCountries.resource'
+import {AgencyId} from 'app/structure/agency';
+import "./preferredCountries.css!";
+
+@customElement('preferred-countries')
+@inject(PreferredCountriesResource)
+@route('iw.auth.preferredCountries', {
+	url: '/components/preferred-countries'	
+})
+@translate
+export class PreferredCountries {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Attribute routing [1/2]</h4>
+                    <pre><code class="ts">@route('iw.auth.login', {
+    url: '/login'
+})
+@translated
+@inject(Dispatcher, User, Alert)
+export class LogIn {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Attribute routing [2/2]</h4>
+                    <pre><code class="json">[
+...
+    {
+        "name": "iw.auth.login",
+        "controller": "LogIn",
+        "module": "app/auth/login/login",
+        "options": {
+            "url": "/login"
+        }
+    },
+...                        
+]</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Bardzo dynamiczne formularze [1/2]</h4>
+                    <pre><code class="ts">import {DynamicFormsResource} from 'app/common/dynamicForms/dynamicForms.resource';
+
+@customElement('customer-form')
+@inject(DynamicFormsResource)
+export class CustomerForm {    
+    constructor(private dynamicFormsResource: DynamicFormsResource) {}
+    
+    activate() {    
+        return this.formSchemaPromise = this.dynamicFormsResource
+            .getForm(ItWorks.Api.DynamicForms.FormType.Customer)
+            .then(schema => {
+                ...
+            });           
+    }
+    ...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Bardzo dynamiczne formularze [2/2]</h4>
+                    <pre><code class="html"><iw-dynamic-form schema="vm.formSchemaPromise" on-submit="vm.submit()">
+        ...
+</iw-dynamic-form>
+</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Wersjonowanie</h4>
+                    <pre><code class="ts">@route('iw.auth.login', {
+    url: '/login',
+    version: 1
+})
+@inject(SomeResource)
+export class Login {
+    ...
+}</code></pre>
+                    <pre><code class="ts">@route('iw.auth.login', {
+    url: '/login',
+    version: 2
+})
+@inject(NewVersionOfSomeResource, AnotherService)
+export class Login {
+    ...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <p>
+                        ...i wspieramy IE 8 :-)
+                    </p>
+                </section>
             </section>
-            
-            <section id="nowozytnosc-architektura-serwer">                
-                <section><h2>Serwer</h2></section>
+
+            <section id="nowozytnosc-architektura-serwer">
+                <section>
+                    <h2>Serwer</h2></section>
                 <section>
                     <h3>Stos technologiczny</h3>
                     <ul>
@@ -219,9 +521,9 @@
                         <li>ASP.NET WebApi + Swashbuckle Swagger</li>
                         <li>Structure Map</li>
                         <li>Dapper</li>
-                        <li>MonoCecil + Fody</li>
+                        <li>Mono.Cecil + Fody</li>
                         <li>Glimpse</li>
-                        <li>inne: 
+                        <li>inne:
                             <ul>
                                 <li>FluentValidator, FluentMigrator, CommandLineParser, Psake</li>
                             </ul>
@@ -352,7 +654,7 @@ public class GlimpsePolicy : IInterceptorPolicy
                 <section>
                     <p>Testujemy cały handler</p>
 
-                <pre><code class="cs">
+                    <pre><code class="cs">
 [Test]
 public void Some_Test_ThenError()
 {
@@ -408,7 +710,7 @@ public class BaseController : ApiContoller
                     </code></pre>
                 </section>
                 <section>
-                    <p>MonoCecil & Fody for the win!</p>
+                    <p>Mono.Cecil & Fody for the win!</p>
                     <pre><code class="cs">
 public void Execute()
 {
@@ -447,7 +749,7 @@ public OutEnvelope&lt;EmptyResponse&gt; Handle(SaveCustomer.Request request)
                     </code></pre>
                 </section>
                 <section>
-                    <p>MonoCecil - wygenerowane API Controllers</p>
+                    <p>Mono.Cecil - wygenerowane API Controllers</p>
                     <img src="images/emit-controllers.png" />
                 </section>
                 <section>
@@ -537,8 +839,10 @@ public OutEnvelope&lt;GetDesksForAgency.Response&gt;
                         <li>
                             Możliwość wyłączenia audytowania dla pewnych operacji:
                             <ul>
-                                <li>Infrastrukturalnych handlerów -<br /><code class="cs">[NotAuditableOperation]</code></li>
-                                <li>Danych wrażliwych (np. hasła) -<br /><code class="cs">[SensitiveData]</code></li>
+                                <li>Infrastrukturalnych handlerów -
+                                    <br /><code class="cs">[NotAuditableOperation]</code></li>
+                                <li>Danych wrażliwych (np. hasła) -
+                                    <br /><code class="cs">[SensitiveData]</code></li>
                             </ul>
                         </li>
                     </ul>
@@ -602,7 +906,7 @@ public class DeskId : Id.IId
                     <img src="images/fody-twitter.png" alt="">
                 </section>
             </section>
-            
+
             <section id="nowozytnosc-proces">
                 <section>
                     <h2>Proces</h2>
@@ -632,6 +936,74 @@ public class DeskId : Id.IId
                 <section>
                     <h2>Continuous Integration</h2>
                 </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>JIRA</h4>
+                    <img src="images/JIRA-obscured.png" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>                    
+                    <img src="images/code.gif" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Git</h4>
+                    <h4 class="fragment" data-fragment-index="1">
+                    <span class="fragment highlight-red" data-fragment-index="2">Flow</span>
+                </h4>
+                    <h4 class="fragment" data-fragment-index="2">
+                    <span class="fragment highlight-red" data-fragment-index="2">jest zły</span>
+                </h4>
+                    <h4 class="fragment" data-fragment-index="3">
+                    <span class="fragment highlight-green" data-fragment-index="4">zrób to lepiej</span>
+                </h4>
+                    <h4 class="fragment" data-fragment-index="4">
+                    <span class="fragment highlight-green" data-fragment-index="4">odwróć merge</span>
+                </h4>
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Git Hooks</h4>
+                    <img src="images/hook.png" style="height: 300px" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Code Review</h4>
+                    <p>JetBrains Upsource</p>
+                    <p class="fragment">
+                        ...a dlaczego nie Atlassian Crucible?
+                    </p>
+                </section>
+                <section>
+                    <p>...dlatego</p>
+                    <img src="images/crucible-1.png" alt="">
+                    <img src="images/crucible-2.png" alt="">
+                    <img src="images/crucible-3.png" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Automatyczny Build</h4>
+                    <h4>TeamCity</h4>
+                    <img src="images/teamcity-build.png" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Budowniczy</h4>
+                    <ul>
+                        <li>Serwer - PSAKE</li>
+                        <li>Klient - Gulp</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Automatyczny Changelog</h4>
+                    <img src="images/changelog.png" alt="" style="height: 500px">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Nuget</h4>
+                    <img src="images/artifacts.png" alt="" style="height: 200px">
+                </section>                
             </section>
             <section id="nowoztynosc-cd">
                 <section>
@@ -658,7 +1030,7 @@ public class DeskId : Id.IId
                     <h2>~ 5 minut</h2>
                 </section>
             </section>
-            
+
             <section id="czasy-najnowsze-przyszlosc">
                 <section>
                     <h2>Czasy najnowsze i przyszłość</h2>
@@ -700,19 +1072,19 @@ public class DeskId : Id.IId
                     </ul>
                 </section>
             </section>
-		
+
             <section id="pytania">
-				<h2>Pytania?</h2>		
-			</section>            
-	
-		</div>
-	</div>
+                <h2>Pytania?</h2>
+            </section>
 
-	<script src="lib/js/head.min.js"></script>
-	<script src="js/reveal.js"></script>
+        </div>
+    </div>
 
-	<script>
-		// Full list of configuration options available at:
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // Full list of configuration options available at:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
@@ -732,7 +1104,7 @@ public class DeskId : Id.IId
 					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
-	</script>
+    </script>
 
 </body>
 
