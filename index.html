@@ -157,39 +157,36 @@
                 </section>
                 <section>
                     <h3>Architektura</h3>
+                    <img src="images/vbcurry.png" class="fragment" />
                 </section>
                 <section>
-                    <h3>Architektura</h3>
-                    <img src="images/vbcurry.png" />
-                </section>
-                <section>
-                    <p>Stos technologiczny</p>
+                    <h3>Stos technologiczny</h3>
                     <ul>
-                        <li>.NET od 2.0 do 4.0</li>
-                        <li>"Backend" C#</li>
-                        <li>"Frontend" VB.NET <em>( ͠° ͟ʖ ͡°)</em></li>
-                        <li>ASP.NET WebForms</li>
-                        <li>Telerik</li>
+                        <li class="fragment">.NET od 2.0 do 4.0</li>
+                        <li class="fragment">"Backend" C#</li>
+                        <li class="fragment">"Frontend" VB.NET <em class="highlight-red fragment">( ͠° ͟ʖ ͡°)</em></li>
+                        <li class="fragment">ASP.NET <span class="highlight-red fragment">WebForms</span></li>
+                        <li class="fragment"><span class="highlight-red fragment">Telerik</span></li>
                     </ul>
                 </section>
                 <section>
                     <h3>UI</h3>
                     <ul>
-                        <li><strong>Przeciążony</strong> ASPX (~ 30-40k loc)</li>
-                        <li><strong>Przeciążony</strong> CodeBehind z przeciekającą logiką</li>
-                        <li>Przypisywanie funkcji JS w CodeBehind (mouseover, etc.)</li>
-                        <li>JS: sterowanie DOM wymieszane z logiką</li>
-                        <li>Wsparcie <strong>tylko</strong> dla IE8-9</li>
-                        <li>Nieresponsywny, oparty na ZOOM</li>
+                        <li class="fragment"><strong class="fragment highlight-red">Przeciążony</strong> ASPX (<span class="highlight-red fragment">~ 30-40k loc</span>)</li>
+                        <li class="fragment"><strong class="fragment highlight-red">Przeciążony</strong> CodeBehind z <span class="highlight-red fragment">przeciekającą logiką</span></li>
+                        <li class="fragment">Przypisywanie funkcji JS w <span class="fragment highlight-red">CodeBehind (mouseover, etc.)</span></li>
+                        <li class="fragment">JS: <span class="highlight-red fragment">sterowanie DOM wymieszane z logiką</span></li>
+                        <li class="fragment">Wsparcie <strong class="highlight-red fragment">tylko dla IE8-9</strong></li>
+                        <li class="fragment">Nieresponsywny, <strong class="highlight-red fragment">oparty na ZOOM</strong></li>
                     </ul>
                 </section>
                 <section>
                     <h3>Serwer</h3>
                     <ul>
-                        <li>Sesja, wszędzie sesja... Wyciekająca od ASPX do DAL</li>
-                        <li>Onionizm (warstwy-proxy) - UI-BLL-DAL</li>
-                        <li>(Prawie) brak unit testów</li>
-                        <li>~1000 Thread.Sleep</li>
+                        <li class="fragment">Sesja, wszędzie sesja... <span class="highlight-red fragment">Wyciekająca od ASPX do DAL</span></li>
+                        <li class="fragment">Onionizm (<span class="highlight-red fragment">warstwy-proxy</span>) - UI-BLL-DAL</li>
+                        <li class="fragment"><span class="highlight-red fragment">(Prawie)</span> brak unit testów</li>
+                        <li class="fragment">~1000 Thread.Sleep</li>
                     </ul>
                 </section>
                 <section>
@@ -199,27 +196,27 @@
                     <h1>D R Y</h1>
                 </section>
                 <section>
-                    <h1><small>D</small>RY</13>
-                    <h2>Repeat Yourself</h2>
+                    <h1><small class="highlight-red fragment">D</small>RY</13>
+                    <h2 class="fragment">Repeat Yourself</h2>
                 </section>
                 <section>
                     <h1>K I S S</h1>
                 </section>
                 <section>
-                    <h1>KIS<small>S</small></h1>
-                    <h2>Keep It Stupidly Complicated</h2>
+                    <h1>KIS<small class="highlight-red fragment">S</small></h1>
+                    <h2 class="fragment">Keep It Stupidly Complicated</h2>
                 </section>
                 <section>
                     <h1>I o C</h1>
                 </section>
                 <section>
-                    <h1>NoN</h1>
-                    <h2>None of Control</h2>
+                    <h1 class="highlight-red fragment">NoN</h1>
+                    <h2 class="fragment">None of Control</h2>
                 </section>
                 <section>
                     <h3>Spaghetti code</h3>
                     <h3>GOTO</h3>
-                    <h3>1 / 0</h3>
+                    <h3>1 / <span class="highlight-red fragment">0</span></h3>
                 </section>
             </section>
 
@@ -278,7 +275,7 @@
             <section id="nowozytnosc">
                 <section>
                     <h2>Nowożytność</h2>
-                    <h3>Tu jesteśmy.</h3>
+                    <h3 class="fragment">Tu jesteśmy.</h3>
                 </section>
                 <section>
                     <h2>Struktura projektów (Sewer)</h2>
@@ -532,13 +529,13 @@ export class Login {
                 <section>
                     <h3>Stos technologiczny</h3>
                     <ul>
-                        <li>.NET 4.5.2</li>
-                        <li>ASP.NET WebApi + Swashbuckle Swagger</li>
-                        <li>Structure Map</li>
-                        <li>Dapper</li>
-                        <li>Mono.Cecil + Fody</li>
-                        <li>Glimpse</li>
-                        <li>inne:
+                        <li class="fragment">.NET 4.5.2</li>
+                        <li class="fragment">ASP.NET WebApi <span class="fragment">+ Swashbuckle Swagger</span></li>
+                        <li class="fragment">Structure Map</li>
+                        <li class="fragment">Dapper</li>
+                        <li class="fragment">Mono.Cecil + Fody</li>
+                        <li class="fragment">Glimpse</li>
+                        <li class="fragment">inne:
                             <ul>
                                 <li>FluentValidator, FluentMigrator, CommandLineParser, Psake</li>
                             </ul>
@@ -547,10 +544,10 @@ export class Login {
                 </section>
                 <section>
                     <h3>Architektura</h3>
-                    <p>Message Passing</p>
+                    <p class="fragment">Message Passing</p>
                     <ul>
-                        <li><code>IDispatcher</code></li>
-                        <li><code>IHandleRequest</code></li>
+                        <li class="fragment"><code>IDispatcher</code></li>
+                        <li class="fragment"><code>IHandleRequest</code></li>
                     </ul>
                 </section>
                 <section>
@@ -779,14 +776,11 @@ public OutEnvelope&lt;EmptyResponse&gt; Handle(SaveCustomer.Request request)
                 </section>
                 <section>
                     <h2>Feature Toggling</h2>
-                </section>
-                <section>
-                    <h3>Feature Toggling</h3>
                     <ul>
-                        <li>Ujarzmienie <em>if-logy</em></li>
-                        <li>Dużo łatwiejsze testowanie skomplikowanych reguł</li>
-                        <li>Bazuje na lokalnym kontekście wiadomości, roli i innych</li>
-                        <li>Zawsze jeden, domyślny <em>feature</em></li>
+                        <li class="fragment">Ujarzmienie <em>if-logy</em></li>
+                        <li class="fragment">Dużo łatwiejsze testowanie skomplikowanych reguł</li>
+                        <li class="fragment">Bazuje na lokalnym kontekście wiadomości, roli i innych</li>
+                        <li class="fragment">Zawsze jeden, domyślny <em>feature</em></li>
                     </ul>
                 </section>
                 <section>
@@ -819,7 +813,7 @@ public interface IFeatureFinder
         where TFeature : IFeature&lt;TContext&gt;;
 }
                     </code></pre>
-                    <p>Implementacja Finder opiera się na przeszukiwaniu kontenera SM</p>
+                    <p class="fragment">Implementacja Finder opiera się na przeszukiwaniu kontenera SM</p>
                 </section>
                 <section>
                     <h3>Caching - Second Level</h3>
