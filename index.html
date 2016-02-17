@@ -893,11 +893,45 @@ public class DeskId : Id.IId
                 </code></pre>
                 </section>
                 <section>
+                    <h3>Silne typy u klienta - serwer</h3>
+                    <pre><code class="cs">
+[PushToClientSide]
+public class TransactionDetailResponse
+{
+    public TransactionDetailVisibility ColumnVisibility { get; private set; }
+
+    public IEnumerable&lt;TransactionDetail&gt; Details { get; private set; }
+
+    public TransactionDetailResponse(TransactionDetailVisibility columnVisibility, 
+        IEnumerable&lt;TransactionDetail&gt; details)
+    { ... }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Silne typy u klienta - wygenerowane</h3>
+                    <pre><code class="ts">
+export module ItWorks.Api.History.GetTransactionDetail {
+	export class TransactionDetailResponse {
+		ColumnVisibility: ItWorks.Api.History.GetTransactionDetail.TransactionDetailVisibility;
+		Details: ItWorks.Api.History.GetTransactionDetail.TransactionDetail[];
+	}
+
+	export class TransactionDetail {
+		TransactionType: ItWorks.Api.Transaction.TransactionTypes;
+		Amounts: ItWorks.Api.History.GetTransactionDetail.Amounts;
+
+        ...
+	}
+...
+}
+                    </code></pre>
+                </section>
+                <section>
                     <h3>Inne</h3>
                     <ul>
                         <li>Performance Counter</li>
                         <li>Glimpse (pomimo WebApi)</li>
-                        <li>Pałka-serializator poprawnie zaimplementowany</li>
                         <li>Migracje z FluentMigration (+ pull request <em>idempotent migrations</em>)</li>
                         <li>
                             Aplikacja Cmd (z użyciem CommandLineParser)
@@ -968,6 +1002,11 @@ public class DeskId : Id.IId
                     <h4 class="fragment" data-fragment-index="4">
                     <span class="fragment highlight-green" data-fragment-index="4">odwróć merge</span>
                 </h4>
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Git Reverse Flow</h4>
+                    <img src="images/git-reverse-flow.png" />
                 </section>
                 <section>
                     <h3>Continuous Integration</h3>
