@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/black.css" id="theme">
 
-	<!-- Code syntax highlighting -->
-	<link rel="stylesheet" href="lib/css/zenburn.css">
-    
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
     <!-- font awesome -->
     <link rel="stylesheet" href="css/font-awesome-4.5.0/css/font-awesome.min.css"></link>
 
@@ -137,15 +137,18 @@
                 <section>
                     <h3>Proces</h3>
                     <ul>
-                        <li class="fragment">
-                            Fragmenty systemu <span class="highlight-red fragment">poza repozytorium kodu</span>
+                        <li class="fragment" data-fragment-index="1">
+                            Fragmenty systemu <span class="highlight-red fragment" data-fragment-index="2">poza repozytorium kodu</span>
                         </li>
-                        <li class="fragment"><span class="highlight-red fragment">Dwumiesięczny</span> cykl releasowania</li>
-                        <li class="fragment">Proces całkowicie <span class="highlight-red fragment">manualny</span>
+                        <li class="fragment" data-fragment-index="2">
+                            <span class="highlight-red fragment" data-fragment-index="3">Dwumiesięczny</span> cykl releasowania
+                        </li>
+                        <li class="fragment" data-fragment-index="3">Proces całkowicie
+                            <span class="highlight-red fragment" data-fragment-index="4">manualny</span>
                             <ul>
-                                <li class="fragment">Release management</li>
-                                <li class="fragment">Testy</li>
-                                <li class="fragment">Dostarczanie oprogramowania na środowisko produkcyjne</li>
+                                <li class="fragment" data-fragment-index="4">Release management</li>
+                                <li class="fragment" data-fragment-index="4">Testy</li>
+                                <li class="fragment" data-fragment-index="4">Dostarczanie oprogramowania na środowisko produkcyjne</li>
                             </ul>
                         </li>
                     </ul>
@@ -162,31 +165,51 @@
                 <section>
                     <h3>Stos technologiczny</h3>
                     <ul>
-                        <li class="fragment">.NET od 2.0 do 4.0</li>
-                        <li class="fragment">"Backend" C#</li>
-                        <li class="fragment">"Frontend" VB.NET <em class="highlight-red fragment">( ͠° ͟ʖ ͡°)</em></li>
-                        <li class="fragment">ASP.NET <span class="highlight-red fragment">WebForms</span></li>
-                        <li class="fragment"><span class="highlight-red fragment">Telerik</span></li>
+                        <li class="fragment" data-fragment-index="1">.NET od 2.0 do 4.0</li>
+                        <li class="fragment" data-fragment-index="2">"Backend" C#</li>
+                        <li class="fragment" data-fragment-index="3">"Frontend" VB.NET
+                            <em class="highlight-red fragment" data-fragment-index="4">( ͠° ͟ʖ ͡°)</em>
+                        </li>
+                        <li class="fragment" data-fragment-index="4">ASP.NET
+                            <span class="highlight-red fragment" data-fragment-index="5">WebForms</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="5">
+                            <span class="highlight-red fragment" data-fragment-index="6">Telerik</span>
+                        </li>
                     </ul>
                 </section>
                 <section>
                     <h3>UI</h3>
                     <ul>
-                        <li class="fragment"><strong class="fragment highlight-red">Przeciążony</strong> ASPX (<span class="highlight-red fragment">~ 30-40k loc</span>)</li>
-                        <li class="fragment"><strong class="fragment highlight-red">Przeciążony</strong> CodeBehind z <span class="highlight-red fragment">przeciekającą logiką</span></li>
-                        <li class="fragment">Przypisywanie funkcji JS w <span class="fragment highlight-red">CodeBehind (mouseover, etc.)</span></li>
-                        <li class="fragment">JS: <span class="highlight-red fragment">sterowanie DOM wymieszane z logiką</span></li>
-                        <li class="fragment">Wsparcie <strong class="highlight-red fragment">tylko dla IE8-9</strong></li>
-                        <li class="fragment">Nieresponsywny, <strong class="highlight-red fragment">oparty na ZOOM</strong></li>
+                        <li class="fragment" data-fragment-index="1">
+                            <strong class="fragment highlight-red" data-fragment-index="2">Przeciążony</strong> ASPX (
+                            <span class="highlight-red fragment" data-fragment-index="2">~ 30-40k loc</span>)
+                        </li>
+                        <li class="fragment" data-fragment-index="2">
+                            <strong class="fragment highlight-red" data-fragment-index="3">Przeciążony</strong> CodeBehind
+                            z <span class="highlight-red fragment" data-fragment-index="3">przeciekającą logiką</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="3">
+                            Przypisywanie funkcji JS w <span class="fragment highlight-red" data-fragment-index="4">CodeBehind (mouseover, etc.)</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="4">
+                            JS: <span class="highlight-red fragment" data-fragment-index="5">sterowanie DOM wymieszane z logiką</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="5">
+                            Wsparcie <strong class="highlight-red fragment" data-fragment-index="6">tylko dla IE8-9</strong>
+                        </li>
+                        <li class="fragment" data-fragment-index="6">
+                            Nieresponsywny, <strong class="highlight-red fragment" data-fragment-index="7">oparty na ZOOM</strong>
+                        </li>
                     </ul>
                 </section>
                 <section>
                     <h3>Serwer</h3>
                     <ul>
-                        <li class="fragment">Sesja, wszędzie sesja... <span class="highlight-red fragment">Wyciekająca od ASPX do DAL</span></li>
-                        <li class="fragment">Onionizm (<span class="highlight-red fragment">warstwy-proxy</span>) - UI-BLL-DAL</li>
-                        <li class="fragment"><span class="highlight-red fragment">(Prawie)</span> brak unit testów</li>
-                        <li class="fragment">~1000 Thread.Sleep</li>
+                        <li class="fragment" data-fragment-index="1">Sesja, wszędzie sesja... <span class="highlight-red fragment" data-fragment-index="2">Wyciekająca od ASPX do DAL</span></li>
+                        <li class="fragment" data-fragment-index="2">Onionizm (<span class="highlight-red fragment" data-fragment-index="3">warstwy-proxy</span>) - UI-BLL-DAL</li>
+                        <li class="fragment" data-fragment-index="3"><span class="highlight-red fragment" data-fragment-index="4">(Prawie)</span> brak unit testów</li>
+                        <li class="fragment" data-fragment-index="4">~1000 Thread.Sleep</li>
                     </ul>
                 </section>
                 <section>
@@ -230,15 +253,15 @@
                 <section>
                     <h3>Średniowiecze - Proces</h3>
                     <ul>
-                        <li class="fragment" data-fragment-index="10">
-                            <span class="fragment highlight-green" data-fragment-index="11">Kanban</span> w JIRA
+                        <li class="fragment" data-fragment-index="1">
+                            <span class="fragment highlight-green" data-fragment-index="2">Kanban</span> w JIRA
                         </li>
-                        <li class="fragment" data-fragment-index="20">
-                            <span class="fragment highlight-green" data-fragment-index="21">Przegląd kodu</span> w Upsource
+                        <li class="fragment" data-fragment-index="2">
+                            <span class="fragment highlight-green" data-fragment-index="3">Przegląd kodu</span> w Upsource
                         </li>
-                        <li class="fragment" data-fragment-index="30">
-                            <span class="fragment highlight-green" data-fragment-index="32">Phoenix Deployment</span>
-                            <span class="fragment" data-fragment-index="31">(w dalszym ciągu ręczny)</span>
+                        <li class="fragment" data-fragment-index="3">
+                            <span class="fragment highlight-green" data-fragment-index="4">Phoenix Deployment</span>
+                            <span class="fragment" data-fragment-index="3">(w dalszym ciągu ręczny)</span>
                         </li>
                     </ul>
                 </section>
@@ -249,23 +272,22 @@
                 </section>
                 <section>
                     <h3>Średniowiecze - Proces</h3>
-                    <h4>Ciasne, ale własne...</h4>                    
+                    <h4>Ciasne, ale własne...</h4>
                     <img src="images/farma.jpg" alt="Zdjęcie farmy" style="height: 500px">
                 </section>
                 <section>
                     <h3>Średniowiecze - Architektura</h3>
                     <ul>
-                        <li class="fragment" data-fragment-index="10">
-                            <span class="fragment highlight-green" data-fragment-index="11">Dependency Injection</span> z
+                        <li class="fragment" data-fragment-index="1">
+                            <span class="fragment highlight-green" data-fragment-index="2">Dependency Injection</span> z
                             użyciem StructureMap
                         </li>
-                        <li class="fragment" data-fragment-index="20">
-                            Wprowadzamy "<span class="fragment highlight-green" data-fragment-index="21">prawdziwe</span>"
-                            <span class="fragment highlight-green" data-fragment-index="21">testy</span>
+                        <li class="fragment" data-fragment-index="2">
+                            Wprowadzamy "<span class="fragment highlight-green" data-fragment-index="3">prawdziwe</span>"
+                            <span class="fragment highlight-green" data-fragment-index="3">testy</span>
                         </li>
-                        <li class="fragment" data-fragment-index="30">
-                            <span class="fragment highlight-green" data-fragment-index="31">Pozbywamy się sesji</span> z
-                            DAL
+                        <li class="fragment" data-fragment-index="3">
+                            <span class="fragment highlight-green" data-fragment-index="4">Pozbywamy się sesji</span> z DAL
                         </li>
                     </ul>
                 </section>
@@ -984,7 +1006,7 @@ export module ItWorks.Api.History.GetTransactionDetail {
                     <img src="images/JIRA-obscured.png" alt="">
                 </section>
                 <section>
-                    <h3>Continuous Integration</h3>                    
+                    <h3>Continuous Integration</h3>
                     <img src="images/code.gif" alt="">
                 </section>
                 <section>
@@ -1050,7 +1072,7 @@ export module ItWorks.Api.History.GetTransactionDetail {
                     <h3>Continuous Integration</h3>
                     <h4>Nuget</h4>
                     <img src="images/artifacts.png" alt="" style="height: 200px">
-                </section>                
+                </section>
             </section>
             <section id="nowoztynosc-cd">
                 <section>
