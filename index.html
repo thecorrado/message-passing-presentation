@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Message Passing Presentation</title>
+
+    <meta name="description" content="Message Passing Presentation">
+    <meta name="author" content="Tomasz Frydrychewicz & Konrad Banaszek">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="css/font-awesome-4.5.0/css/font-awesome.min.css"></link>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+    <style media="screen" type="text/css">
+        .reveal table {
+            margin: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+        .reveal pre {
+            width: 100%;
+        }
+        
+        .reveal pre code {
+            margin: auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            max-height: 100%;
+        }
+        
+        .reveal table th {
+            font-weight: bold;
+        }
+        
+        .reveal table th,
+        .reveal table td {
+            text-align: left;
+            padding: 0.2em 0.5em 0.2em 0.5em;
+            border-bottom: 1px solid;
+        }
+        
+        .reveal code {
+            width: 1000px;
+            font-size: 0.8em;
+            line-height: 1.4em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="reveal">
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section>
+                <div>
+                    <small><em>Tomasz Frydrychewicz & Konrad Banaszek</em></small>
+                </div>
+                <h2>Wyjście z epoki oprogramowania łupanego</h2>
+                <p>...i jak nam w tym pomógł <em>message-passing</em>
+                    <br />oraz <em>feature-driven development</em></p>
+
+            </section>
+            <section id="bio">
+                <section>
+                    <h2>Bio</h2>
+                </section>
+                <section>
+                    <h2>Tomasz Frydrychewicz</h2>
+                    <ul>
+                        <li>programista od ~18 lat</li>
+                        <li>od 13 lat związany z webem</li>
+                        <li>podróże, gry planszowe i dobre wino</li>
+                    </ul>
+                    <p><i class="fa fa-twitter"> <span>/frydrychewicz</span></i> </p>
+                </section>
+                <section>
+                    <h2>Konrad Banaszek</h2>
+                    <ul>
+                        <li>programista od ~7 lat</li>
+                        <li>zwolennik ciemnej strony (backend-owej)</li>
+                        <li>podróże, gry planszowe i dobre piwo</li>
+                    </ul>
+                    <p><i class="fa fa-twitter"> <span>/thecorrado</span></i> </p>
+                </section>
+                <section>
+                    <h2>MoneyGram</h2>
+                    <ul>
+                        <li>Przekazy pieniężne</li>
+                        <li>200 krajów, 350 tys placówek, 10 mln klientów</li>
+                        <li>Dochód $358.8 mln</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <h2>Agenda</h2>
+                <ul>
+                    <li><a href="#/epoka-kamienia">Epoka kamienia</a></li>
+                    <li><a href="#/sredniowiecze">Średniowiecze</a></li>
+                    <li><a href="#/nowozytnosc">Nowożytność</a></li>
+                    <li><a href="#/czasy-najnowsze-przyszlosc">Czasy najnowsze i przyszłość</a></li>
+                    <li><a href="#/pytania">Pytania</a></li>
+                </ul>
+            </section>
+
+            <section id="epoka-kamienia">
+                <section>
+                    <h2>Epoka kamienia</h2>
+                </section>
+                <section>
+                    <h3>Proces</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">
+                            Fragmenty systemu <span class="highlight-red fragment" data-fragment-index="2">poza repozytorium kodu</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="2">
+                            <span class="highlight-red fragment" data-fragment-index="3">Dwumiesięczny</span> cykl releasowania
+                        </li>
+                        <li class="fragment" data-fragment-index="3">Proces całkowicie
+                            <span class="highlight-red fragment" data-fragment-index="4">manualny</span>
+                            <ul>
+                                <li class="fragment" data-fragment-index="4">Release management</li>
+                                <li class="fragment" data-fragment-index="4">Testy</li>
+                                <li class="fragment" data-fragment-index="4">Dostarczanie oprogramowania na środowisko produkcyjne</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Proces</h3>
+                    <h4>Continuous Integration</h4>
+                    <img src="images/teamcity-red.png" class="fragment" style="height: 500px" />
+                </section>
+                <section>
+                    <h3>Architektura</h3>
+                    <img src="images/vbcurry.png" class="fragment" />
+                </section>
+                <section>
+                    <h3>Stos technologiczny</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">.NET od 2.0 do 4.0</li>
+                        <li class="fragment" data-fragment-index="2">"Backend" C#</li>
+                        <li class="fragment" data-fragment-index="3">"Frontend" VB.NET
+                            <em class="highlight-red fragment" data-fragment-index="4">( ͠° ͟ʖ ͡°)</em>
+                        </li>
+                        <li class="fragment" data-fragment-index="4">ASP.NET
+                            <span class="highlight-red fragment" data-fragment-index="5">WebForms</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="5">
+                            <span class="highlight-red fragment" data-fragment-index="6">Telerik</span>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">
+                            <strong class="fragment highlight-red" data-fragment-index="2">Przeciążony</strong> ASPX (
+                            <span class="highlight-red fragment" data-fragment-index="2">~ 30-40k loc</span>)
+                        </li>
+                        <li class="fragment" data-fragment-index="2">
+                            <strong class="fragment highlight-red" data-fragment-index="3">Przeciążony</strong> CodeBehind
+                            z <span class="highlight-red fragment" data-fragment-index="3">przeciekającą logiką</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="3">
+                            Przypisywanie funkcji JS w <span class="fragment highlight-red" data-fragment-index="4">CodeBehind (mouseover, etc.)</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="4">
+                            JS: <span class="highlight-red fragment" data-fragment-index="5">sterowanie DOM wymieszane z logiką</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="5">
+                            Wsparcie <strong class="highlight-red fragment" data-fragment-index="6">tylko dla IE8-9</strong>
+                        </li>
+                        <li class="fragment" data-fragment-index="6">
+                            Nieresponsywny, <strong class="highlight-red fragment" data-fragment-index="7">oparty na ZOOM</strong>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Serwer</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">Sesja, wszędzie sesja... <span class="highlight-red fragment" data-fragment-index="2">Wyciekająca od ASPX do DAL</span></li>
+                        <li class="fragment" data-fragment-index="2">Onionizm (<span class="highlight-red fragment" data-fragment-index="3">warstwy-proxy</span>) - UI-BLL-DAL</li>
+                        <li class="fragment" data-fragment-index="3"><span class="highlight-red fragment" data-fragment-index="4">(Prawie)</span> brak unit testów</li>
+                        <li class="fragment" data-fragment-index="4">~1000 Thread.Sleep</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Chwytliwe zwroty</h3>
+                </section>
+                <section>
+                    <h1>D R Y</h1>
+                </section>
+                <section>
+                    <h1><small class="highlight-red fragment">D</small>RY</13>
+                    <h2 class="fragment">Repeat Yourself</h2>
+                </section>
+                <section>
+                    <h1>K I S S</h1>
+                </section>
+                <section>
+                    <h1>KIS<small class="highlight-red fragment">S</small></h1>
+                    <h2 class="fragment">Keep It Stupidly Complicated</h2>
+                </section>
+                <section>
+                    <h1>I o C</h1>
+                </section>
+                <section>
+                    <h1 class="highlight-red fragment">NoN</h1>
+                    <h2 class="fragment">None of Control</h2>
+                </section>
+                <section>
+                    <h3>Spaghetti code</h3>
+                    <h3>GOTO</h3>
+                    <h3>1 / <span class="highlight-red fragment">0</span></h3>
+                </section>
+            </section>
+
+            <section id="sredniowiecze">
+                <section>
+                    <h2>Średniowiecze</h2>
+                </section>
+                <section>
+                    <h3>Na ratunek przybywa zespół z grodu Warsa i Sawy</h3>
+                </section>
+                <section>
+                    <h3>Średniowiecze - Proces</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">
+                            <span class="fragment highlight-green" data-fragment-index="2">Kanban</span> w JIRA
+                        </li>
+                        <li class="fragment" data-fragment-index="2">
+                            <span class="fragment highlight-green" data-fragment-index="3">Przegląd kodu</span> w Upsource
+                        </li>
+                        <li class="fragment" data-fragment-index="3">
+                            <span class="fragment highlight-green" data-fragment-index="4">Phoenix Deployment</span>
+                            <span class="fragment" data-fragment-index="3">(w dalszym ciągu ręczny)</span>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Średniowiecze - Proces</h3>
+                    <h4>Continuous Integration</h4>
+                    <img src="images/teamcity-green.png" style="height: 500px" />
+                </section>
+                <section>
+                    <h3>Średniowiecze - Proces</h3>
+                    <h4>Ciasne, ale własne...</h4>
+                    <img src="images/farma.jpg" alt="Zdjęcie farmy" style="height: 500px">
+                </section>
+                <section>
+                    <h3>Średniowiecze - Architektura</h3>
+                    <ul>
+                        <li class="fragment" data-fragment-index="1">
+                            <span class="fragment highlight-green" data-fragment-index="2">Dependency Injection</span> z
+                            użyciem StructureMap
+                        </li>
+                        <li class="fragment" data-fragment-index="2">
+                            Wprowadzamy "<span class="fragment highlight-green" data-fragment-index="3">prawdziwe</span>"
+                            <span class="fragment highlight-green" data-fragment-index="3">testy</span>
+                        </li>
+                        <li class="fragment" data-fragment-index="3">
+                            <span class="fragment highlight-green" data-fragment-index="4">Pozbywamy się sesji</span> z DAL
+                        </li>
+                    </ul>
+                </section>
+            </section>
+
+            <section id="nowozytnosc">
+                <section>
+                    <h2>Nowożytność</h2>
+                    <h3 class="fragment">Tu jesteśmy.</h3>
+                </section>
+                <section>
+                    <h2>Struktura projektów (Sewer)</h2>
+                    <img src="images/api-project-structure.png" alt="Project Structer" style="height: 400px">
+                </section>
+                <section>
+                    <h2>Struktura projektu (Klient)</h2>
+                    <img src="images/web-project-structure.png" alt="Project Structer" style="height: 580px">
+                </section>
+                <section>
+                    <h2>Architektura</h2>
+                    <ul>
+                        <li>UI</li>
+                        <li>Serwer</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section id="nowozytnosc-architektura-ui">
+                <section>
+                    <h2>UI</h2></section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Stos technologiczny - Klient</h4>
+                    <ul>
+                        <li class="fragment">JavaScript</li>
+                        <li class="fragment">TypeScript</li>
+                        <li class="fragment">System.JS</li>
+                        <li class="fragment">Angular</li>
+                        <li class="fragment">SASS</li>
+                        <li class="fragment">Bootstrap-SASS</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Stos technologiczny - Developer</h4>
+                    <ul>
+                        <li class="fragment">Node</li>
+                        <li class="fragment">Gulp</li>
+                        <li class="fragment">Visual Studio Code</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Architektura</h4>
+                    <ul>
+                        <li>Asynchronicznie gdzie się da</li>
+                        <li>Leniwie gdzie się da</li>
+                        <li>(Bardzo) silnie typy</li>
+                        <li>(Lepsze) zarządzanie cyklem życia</li>
+                        <li>Feature driven</li>
+                        <li>Komponenty</li>
+                        <li>Aspektowość</li>
+                        <li>Attribute routing</li>
+                        <li>Bardzo dynamiczne formularze</li>
+                        <li>Wersjonowanie</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Asynchronicznie gdzie się da</h4>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Leniwie gdzie się da</h4>
+                    <pre><code class="ts">
+import {route, inject, translated, customElement} from 'app/app';
+import {actions} from '../auth.store';
+import {Dispatcher} from 'app/core/flux';
+import {User} from '../user';
+import {DeskId} from 'app/structure';
+import {Alert} from 'app/common/ui';
+
+...
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>(Bardzo) silnie typy</h4>
+                    <pre><code class="ts">@customElement('search-agents')
+@inject(CitiesResource, Dispatcher, State, StatesResource, AgencyInformationResource, Moment)
+export class SearchAgentsComponent {
+    public city: string;
+    public selectedCity: string;
+    public selectedState: State;	
+    public states: State[];	
+    public agents: ItWorks.Api.Agency.AgentInformation[];
+
+    @bindable.expression public country: string;
+    @bindable.value public size: number;
+
+    constructor(
+    	private citiesResource: CitiesResource,
+    	private dispatcher: Dispatcher,
+    	private state: State,
+    	private statesResource: StatesResource,
+        private agencyInformationResource: AgencyInformationResource,
+        private moment: Moment) {}
+        
+    ...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>(Lepsze) zarządzanie cyklem życia</h4>
+                    <img src="images/web-lifecycle.png" alt="">
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Feature driven</h4>
+                    <img src="images/web-feature.png" alt="">
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Komponenty [1/2]</h4>
+                    <pre><code class="ts">import {customElement, inject, bindable, route} from 'app/app';
+import {PreferredCountriesResource} from './preferredCountries.resource'
+import {AgencyId} from 'app/structure/agency';
+import "./preferredCountries.css!";
+
+@customElement('preferred-countries')
+@inject(PreferredCountriesResource)
+@route('iw.auth.preferredCountries', {
+	url: '/components/preferred-countries'	
+})
+@translate
+export class PreferredCountries {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Komponenty [2/2]</h4>
+                    <pre><code class="ts">import {customAttribute, withoutTemplate, element, bindable, inject} from 'app/app'
+import {Parse} from 'app/core/angular';
+import {AuthProvider} from './provider';
+import * as _ from 'lodash';
+
+@customAttribute('iw-authorize')
+@withoutTemplate
+@inject(Parse)
+export class AuthorizeAttribute {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Aspektowość</h4>
+                    <pre><code class="ts">import {customElement, inject, bindable, route} from 'app/app';
+import {PreferredCountriesResource} from './preferredCountries.resource'
+import {AgencyId} from 'app/structure/agency';
+import "./preferredCountries.css!";
+
+@customElement('preferred-countries')
+@inject(PreferredCountriesResource)
+@route('iw.auth.preferredCountries', {
+	url: '/components/preferred-countries'	
+})
+@translate
+export class PreferredCountries {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Attribute routing [1/2]</h4>
+                    <pre><code class="ts">@route('iw.auth.login', {
+    url: '/login'
+})
+@translated
+@inject(Dispatcher, User, Alert)
+export class LogIn {
+...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Attribute routing [2/2]</h4>
+                    <pre><code class="json">[
+...
+    {
+        "name": "iw.auth.login",
+        "controller": "LogIn",
+        "module": "app/auth/login/login",
+        "options": {
+            "url": "/login"
+        }
+    },
+...                        
+]</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Bardzo dynamiczne formularze [1/2]</h4>
+                    <pre><code class="ts">import {DynamicFormsResource} from 'app/common/dynamicForms/dynamicForms.resource';
+
+@customElement('customer-form')
+@inject(DynamicFormsResource)
+export class CustomerForm {    
+    constructor(private dynamicFormsResource: DynamicFormsResource) {}
+    
+    activate() {    
+        return this.formSchemaPromise = this.dynamicFormsResource
+            .getForm(ItWorks.Api.DynamicForms.FormType.Customer)
+            .then(schema => {
+                ...
+            });           
+    }
+    ...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Bardzo dynamiczne formularze [2/2]</h4>
+                    <pre><code class="html"><iw-dynamic-form schema="vm.formSchemaPromise" on-submit="vm.submit()">
+        ...
+</iw-dynamic-form>
+</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <h4>Wersjonowanie</h4>
+                    <pre><code class="ts">@route('iw.auth.login', {
+    url: '/login',
+    version: 1
+})
+@inject(SomeResource)
+export class Login {
+    ...
+}</code></pre>
+                    <pre><code class="ts">@route('iw.auth.login', {
+    url: '/login',
+    version: 2
+})
+@inject(NewVersionOfSomeResource, AnotherService)
+export class Login {
+    ...
+}</code></pre>
+                </section>
+                <section>
+                    <h3>UI</h3>
+                    <p>
+                        ...i wspieramy IE 8 :-)
+                    </p>
+                </section>
+            </section>
+
+            <section id="nowozytnosc-architektura-serwer">
+                <section>
+                    <h2>Serwer</h2></section>
+                <section>
+                    <h3>Stos technologiczny</h3>
+                    <ul>
+                        <li class="fragment">.NET 4.5.2</li>
+                        <li class="fragment">ASP.NET WebApi <span class="fragment">+ Swashbuckle Swagger</span></li>
+                        <li class="fragment">Structure Map</li>
+                        <li class="fragment">Dapper</li>
+                        <li class="fragment">Mono.Cecil + Fody</li>
+                        <li class="fragment">Glimpse</li>
+                        <li class="fragment">inne:
+                            <ul>
+                                <li>FluentValidator, FluentMigrator, CommandLineParser, Psake</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Architektura</h3>
+                    <p class="fragment">Message Passing</p>
+                    <ul>
+                        <li class="fragment"><code>IDispatcher</code></li>
+                        <li class="fragment"><code>IHandleRequest</code></li>
+                    </ul>
+                </section>
+                <section>
+                    <code>IDispatcher</code>
+                    <pre><code class="cs">
+public interface IDispatcher
+{
+    OutEnvelope&lt;TResponse> Dispatch&lt;TRequest, TResponse&gt;(TRequest request)
+        where TRequest : Request&lt;TResponse&gt;
+        where TResponse : class;
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <code>IHandleRequest</code>
+                    <pre><code class="cs">
+public interface IHandleRequest&lt;TMessage, TResponse&gt; : IHandleRequest
+    where TMessage : Request&lt;TResponse&gt;
+    where TResponse : class
+{
+    OutEnvelope&lt;TResponse&gt; Handle(TMessage request);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> przykład</p>
+                    <pre><code class="cs">
+public class GetSapleDataHandler 
+    : IHandleRequest&lt;GetSampleData.Request, IEnumerable&lt;string&gt;&gt;
+{
+    private readonly SqlConnection _connection;
+    
+    ...ctor...
+
+    public OutEnvelope&lt;IEnumerable&lt;string&gt;&gt; Handle(GetSampleData.Request request)
+    {
+        var rows = _connection.Query&lt;SomeRow&gt;(@"
+            SELECT [Something] FROM [Somewhere]");
+        if (rows == null)
+            return OutEnvelope&lt;IEnumerable&lt;string&gt;&gt;.NotFound();
+                 
+        var result = rows.Select(r =&gt; r.Something);
+        
+        new OutEnvelope&lt;IEnumerable&lt;string&gt;&gt;(result); // or just: return result;
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> wywołuje inny handler</p>
+                    <pre><code class="cs">
+public OutEnvelope&lt;ImportantData&gt; Handle(GetImporantData.Request request)
+{
+    var employeeId = _dispatcher.Dispatch(
+        new GetEmployeeId.Request(request.SomeId)).Body;
+
+    var rows = _connection.Query&lt;SomeRow&gt;(@"
+        SELECT [Something] FROM [Somewhere] WHERE EmployeeId = @EmployeeId",
+        new { EmployeeId = employeeId });
+    
+    (...)
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> dekorujemy</p>
+                    <pre><code class="cs">
+public CacheHandler(IHandleRequest&lt;TRequest, TResponse&gt; wrapped, 
+    ICacheRequirement requirement,
+    ICacheService&lt;TRequest, 
+    OutEnvelope&lt;TResponse&gt;&gt; cacheService)
+{
+    _wrapped = wrapped;
+    _requirement = requirement;
+    _cacheService = cacheService;
+}
+
+public OutEnvelope&lt;TResponse&gt; Handle(TRequest request)
+{
+    return _cacheService.GetOrAdd(_requirement, request, 
+        () =&gt; _wrapped.Handle(request));
+}
+                </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> więcej dekorujemy!</p>
+                    <pre><code class="cs">
+                        public CacheHandler(...)
+                        public AuditHandler(...)
+                        public TracingHandler(...)
+                        public GlimpseHandler(...)
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Dekorujemy ze StructureMap</p>
+                    <pre><code class="cs">
+public class GlimpsePolicy : IInterceptorPolicy
+{
+    public string Description { get { return "..."; } }
+
+    public IEnumerable&lt;IInterceptor&gt; DetermineInterceptors(
+        Type type, Instance instance)
+    {
+        if (!type.IsHandlerInterfaceType())
+        {
+            yield break;
+        }
+
+        var handler = typeof(GlimpseHandlerDecorator&lt;,&gt;)
+            .MakeGenericType(type.GetGenericArguments());
+        yield return new DecoratorInterceptor(type, handler);
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Testujemy cały handler</p>
+
+                    <pre><code class="cs">
+[Test]
+public void Some_Test_ThenError()
+{
+    Given( // tworzymy Fakes wszystkich wywołań handlerów w testowanym handlerze
+        new Fakes.UserInAgency(AgencyId, EmployeeId),
+        new Fakes.HasPermission(EmployeeId, OrgId, ...),
+        ...etc...
+    );
+
+    When(new SearchCustomer.Request(...)); // request dla testowanego handlera
+    
+    Then( // oczekujemy rezultatu handlera
+        new ValidationError("Document.Number", "Number missing"));
+}
+                </code></pre>
+                </section>
+                <section>
+                    <h2>WebApi</h2>
+                </section>
+                <section>
+                    <p>WebApi - Controller</p>
+                    <pre><code class="cs">
+public class CustomerController : ApiController
+{
+    [Route("api/customer/{CustomerId}")]
+    [ResponseType(typeof (Customer))]
+    public HttpResponseMessage Get([FromBodyAndUri] GetCustomer.Request request)
+    {
+      ...call dispatcher...
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>WebApi - BaseController</p>
+                    <pre><code class="cs">
+public class BaseController : ApiContoller
+{
+    protected HttpResponseMessage Handle(object request)
+    {
+        if (!ModelState.IsValid)
+        { ... }
+
+        var dependencies = Request.GetDependencyScope();
+        var service = (IDispatcher)dependencies
+            .GetService(typeof (IDispatcher));
+
+        var outEnvelope = (IOutEnvelope) service.Dispatch(request);
+        return Request.CreateResponse(outEnvelope.Code, 
+            new ResponseBody(outEnvelope));
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Mono.Cecil & Fody for the win!</p>
+                    <pre><code class="cs">
+public void Execute()
+{
+    var baseController = ModuleDefinition
+        .GetTypes().Single(t => t.Name == "BaseController");
+    var handle = baseController
+        .Resolve().Methods.Single(m => m.Name == "Handle");
+
+    var exampleController = baseController.Resolve().NestedTypes[0];
+    var exampleAction = exampleController.Methods[0];
+
+    var requests = GetRequests(ModuleDefinition).ToArray();
+    var types = new Dictionary&lt;string, TypeDefinition&gt;();
+
+    foreach (var request in requests)
+    {
+        TypeDefinition controller;
+        if (types.TryGetValue(request.Area, out controller) == false)
+        { ... }
+
+        AddAction(request, controller, exampleAction, handle);
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p><code>IHandleRequest</code> - route attribute</p>
+                    <pre><code class="cs">
+[Authorize]
+[Route("Customer", "api/customer", RouteAttribute.Methods.Post)]
+public OutEnvelope&lt;EmptyResponse&gt; Handle(SaveCustomer.Request request)
+{
+    (...)
+    return OutEnvelope&lt;EmptyResponse&gt;.Ok();
+}    
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Mono.Cecil - wygenerowane API Controllers</p>
+                    <img src="images/emit-controllers.png" />
+                </section>
+                <section>
+                    <img src="images/swagger.png" />
+                </section>
+                <section>
+                    <p>Fody - co jeszcze?</p>
+                    <ul>
+                        <li>Fody.ToString</li>
+                        <li>Fody.Seal - <strong>Kamil Mrzygłód</strong> (nasz człowiek!)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Feature Toggling</h2>
+                    <ul>
+                        <li class="fragment">Ujarzmienie <em>if-logy</em></li>
+                        <li class="fragment">Dużo łatwiejsze testowanie skomplikowanych reguł</li>
+                        <li class="fragment">Bazuje na lokalnym kontekście wiadomości, roli i innych</li>
+                        <li class="fragment">Zawsze jeden, domyślny <em>feature</em></li>
+                    </ul>
+                </section>
+                <section>
+                    <p>Feature Toggling - <code>IFeature</code></p>
+                    <pre><code class="cs">
+public interface IFeature&lt;TContext&gt;
+{
+    bool IsEnabled();
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Feature Toggling - <code>IToggler</code></p>
+                    <pre><code class="cs">
+public interface IToggler&lt;TFeature, TContext&gt; where TFeature : IFeature&lt;TContext&gt;
+{
+    TFeature Get(TContext context);
+    IEnumerable&lt;TFeature&gt; GetAll(TContext context);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>Feature Toggling - <code>FeatureFinder</code></p>
+                    <pre><code class="cs">
+public interface IFeatureFinder
+{
+    IEnumerable&lt;TFeature&gt; GetInstances&lt;TFeature, TContext&gt;(TContext context) 
+        where TFeature : IFeature&lt;TContext&gt;;
+    TFeature GetDefault&lt;TFeature, TContext&gt;(TContext context) 
+        where TFeature : IFeature&lt;TContext&gt;;
+}
+                    </code></pre>
+                    <p class="fragment">Implementacja Finder opiera się na przeszukiwaniu kontenera SM</p>
+                </section>
+                <section>
+                    <h3>Caching - Second Level</h3>
+                    <ul>
+                        <li>Standardowy <code>HttpCache</code></li>
+                        <li>Wykorzystanie <code>SqlDependency</code> do unieważniania danych</li>
+                        <li>Service Broker</li>
+                        <li>Łatwe użycie - poprzez dekorowanie (aspect)</li>
+                    </ul>
+                    <pre><code class="cs">
+[Cache("dbo", "SomeTable", "SomeColumnOne", "SomeColumn2")]
+public OutEnvelope&lt;GetDesksForAgency.Response&gt;
+    Handle(GetDesksForAgency.Request request)
+{
+    // ...
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Caching - First Level</h3>
+                    <ul>
+                        <li>Cache na czas życia jednego żądania</li>
+                        <li>Cache rezultatu handlera dla tego samego żądania</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Audit</h3>
+                    <ul>
+                        <li>Niespodzianka! Ponownie poprzez dekorowanie (aspect)</li>
+                        <li>Zapis pełnego bloku danych</li>
+                        <li>Domyślnie każde żądanie do serwera jest poddane audytowi</li>
+                        <li>
+                            Możliwość wyłączenia audytowania dla pewnych operacji:
+                            <ul>
+                                <li>Infrastrukturalnych handlerów -
+                                    <br /><code class="cs">[NotAuditableOperation]</code></li>
+                                <li>Danych wrażliwych (np. hasła) -
+                                    <br /><code class="cs">[SensitiveData]</code></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Silnie typowane Id</h3>
+                    <pre><code class="cs">
+public interface IId : IEquatable&lt;IId&gt;
+{ }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Silnie typowane Id - bazowe</h3>
+                    <pre><code class="cs">
+public class DocumentId : Id.IntId&lt;DocumentId&gt;
+{ }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Silnie typowane Id - complex</h3>
+                    <pre><code class="cs">
+[TypeConverter(typeof(DeskIdConverter))]
+public class DeskId : Id.IId
+{
+    /// Format: {OrganizationId},{AgencyId},{DeskId}
+    public static DeskId From(string value)
+    { ... }
+
+    public static bool TryFrom(string value, out DeskId id)
+    { ... }
+    
+    public class DeskIdConverter : Id.BaseFromStringTypeConverter&lt;DeskId&gt;
+    {
+        protected override bool TryParse(string value, out DeskId id)
+        {
+            return TryFrom(value, out id);
+        }
+    }
+}
+                </code></pre>
+                </section>
+                <section>
+                    <h3>Silne typy u klienta - serwer</h3>
+                    <pre><code class="cs">
+[PushToClientSide]
+public class TransactionDetailResponse
+{
+    public TransactionDetailVisibility ColumnVisibility { get; private set; }
+
+    public IEnumerable&lt;TransactionDetail&gt; Details { get; private set; }
+
+    public TransactionDetailResponse(TransactionDetailVisibility columnVisibility, 
+        IEnumerable&lt;TransactionDetail&gt; details)
+    { ... }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Silne typy u klienta - wygenerowane</h3>
+                    <pre><code class="ts">
+export module ItWorks.Api.History.GetTransactionDetail {
+	export class TransactionDetailResponse {
+		ColumnVisibility: ItWorks.Api.History.GetTransactionDetail.TransactionDetailVisibility;
+		Details: ItWorks.Api.History.GetTransactionDetail.TransactionDetail[];
+	}
+
+	export class TransactionDetail {
+		TransactionType: ItWorks.Api.Transaction.TransactionTypes;
+		Amounts: ItWorks.Api.History.GetTransactionDetail.Amounts;
+
+        ...
+	}
+...
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Inne</h3>
+                    <ul>
+                        <li>Performance Counter</li>
+                        <li>Glimpse (pomimo WebApi)</li>
+                        <li>Migracje z FluentMigration (+ pull request <em>idempotent migrations</em>)</li>
+                        <li>
+                            Aplikacja Cmd (z użyciem CommandLineParser)
+                            <ul>
+                                <li>Generowanie typów dla TypeScript (PostBuild)</li>
+                                <li>Transformacja .resx do .json, mapowanie starych kluczy na nowe</li>
+                                <li>Instalator Performane Counter</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Podsumowując message-passing...</h3>
+                    <img src="images/fody-twitter.png" alt="">
+                </section>
+            </section>
+
+            <section id="nowozytnosc-proces">
+                <section>
+                    <h2>Proces</h2>
+                    <ul>
+                        <li>Testy</li>
+                        <li>CI</li>
+                        <li>CD</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Testy</h2>
+                    <ul>
+                        <li>Message-passing testy</li>
+                        <li>Unit testy</li>
+                        <li>Funkcjonalne / BDD (SpecFlow)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Testy - TeamCity Code Coverage</h3>
+                    <img src="images/tccc.png" />
+                </section>
+                <section>
+                    <img src="images/omgdevops.jpg" />
+                </section>
+            </section>
+            <section id="nowoztynosc-ci">
+                <section>
+                    <h2>Continuous Integration</h2>
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>JIRA</h4>
+                    <img src="images/JIRA-obscured.png" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <img src="images/code.gif" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Git</h4>
+                    <h4 class="fragment" data-fragment-index="1">
+                    <span class="fragment highlight-red" data-fragment-index="2">Flow</span>
+                </h4>
+                    <h4 class="fragment" data-fragment-index="2">
+                    <span class="fragment highlight-red" data-fragment-index="2">jest zły</span>
+                </h4>
+                    <h4 class="fragment" data-fragment-index="3">
+                    <span class="fragment highlight-green" data-fragment-index="4">zrób to lepiej</span>
+                </h4>
+                    <h4 class="fragment" data-fragment-index="4">
+                    <span class="fragment highlight-green" data-fragment-index="4">odwróć merge</span>
+                </h4>
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Git Reverse Flow</h4>
+                    <img src="images/git-reverse-flow.png" />
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Git Hooks</h4>
+                    <img src="images/hook.png" style="height: 300px" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Code Review</h4>
+                    <p>JetBrains Upsource</p>
+                    <p class="fragment">
+                        ...a dlaczego nie Atlassian Crucible?
+                    </p>
+                </section>
+                <section>
+                    <p>...dlatego</p>
+                    <img src="images/crucible-1.png" alt="">
+                    <img src="images/crucible-2.png" alt="">
+                    <img src="images/crucible-3.png" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Automatyczny Build</h4>
+                    <h4>TeamCity</h4>
+                    <img src="images/teamcity-build.png" alt="">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Budowniczy</h4>
+                    <ul>
+                        <li>Serwer - PSAKE</li>
+                        <li>Klient - Gulp</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Automatyczny Changelog</h4>
+                    <img src="images/changelog.png" alt="" style="height: 500px">
+                </section>
+                <section>
+                    <h3>Continuous Integration</h3>
+                    <h4>Nuget</h4>
+                    <img src="images/artifacts.png" alt="" style="height: 200px">
+                </section>
+            </section>
+            <section id="nowoztynosc-cd">
+                <section>
+                    <h2>Continuous Delivery</h2>
+                </section>
+                <section>
+                    <h2>Continuous Delivery</h2>
+                    <img src="images/octologo.png" />
+                </section>
+                <section>
+                    <h2>Trzy środowiska</h2>
+                    <ul>
+                        <li>Dev</li>
+                        <li>QA</li>
+                        <li>External</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Mr.Deploy mail</h3>
+                    <img src="images/octomail.png" />
+                </section>
+                <section>
+                    <h3>CI + Testy + CD = </h3>
+                    <h2>~ 5 minut</h2>
+                </section>
+            </section>
+
+            <section id="czasy-najnowsze-przyszlosc">
+                <section>
+                    <h2>Czasy najnowsze i przyszłość</h2>
+                </section>
+                <section>
+                    <h2>Proces</h2>
+                </section>
+                <section>
+                    <h2>Proces</h2>
+                    <ul>
+                        <li>Continuous Devliery aż do końca</li>
+                        <li>Propagowanie CI & CD w całej firmie</li>
+                        <li>
+                            Wyraźny podział Deploymentu vs. Release (zmiana nastawienia biznesu i release mngt)
+                            <ul>
+                                <li>Częste deploymenty</li>
+                                <li>Szybki, lekki release</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Architektura</h2>
+                </section>
+                <section>
+                    <h2>Architektura - UI</h2>
+                    <ul>
+                        <li>Pozbycie się wsparcia dla IE&lt;10</li>
+                        <li>Aurelia :)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Architektura - Serwer</h2>
+                    <ul>
+                        <li>.NET 4.6</li>
+                        <li>Versioned API</li>
+                        <li>Async/Await API</li>
+                        <li>Concurrent (dla Dapper, dla zewnętrznych serwisów)</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section id="pytania">
+                <h2>Pytania?</h2>
+                <div class="fragment">
+                    <h3>Prezentacja</h3>
+                    <p><a href="https://github.com/thecorrado/message-passing-presentation">https://github.com/thecorrado/message-passing-presentation</a></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+        // Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+    </script>
+
+</body>
+
+</html>
